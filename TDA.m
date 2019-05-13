@@ -247,6 +247,7 @@ uimenu(h.MenuTariff_cre,'Label','Block Quarterly','Callback',{@CreateTar,'Block_
 uimenu(h.MenuTariff_cre,'Label','Time of Use','Callback',{@CreateTar,'TOU'});
 uimenu(h.MenuTariff_cre,'Label','Time of Use Seasonal','Callback',{@CreateTar,'TOUSeas'});
 uimenu(h.MenuTariff_cre,'Label','Demand Charge','Callback',{@CreateTar,'Demand'});
+uimenu(h.MenuTariff_cre,'Label','Demand Charge + TOU','Callback',{@CreateTar,'Demand_TOU'});
 
 % Help file of the tariffs
 uimenu(h.menuTariff,'Label','Tariff Info','Callback',@HelpTariff);
@@ -1335,7 +1336,6 @@ h.TariffListPup= uicontrol(h.TariffPanel,'Style','popupmenu',...
     'Callback', @SelecTariff);
 
 
-
 % Deleting the tariff
 h.TarDelBut=uicontrol(h.TariffPanel, ...
     'Style','pushbutton', 'String','X',...
@@ -1873,7 +1873,8 @@ h.LoadedLoads.Ini=1;
             end
             h.SelectTariff_Type_Value.String=h.MyTariff.Type;
             
-            % check if it has daily parameter and hide/show the option accordingly
+            % Check if it has daily parameter and hide/show the option accordingly
+            
             if isfield(h.MyTariff.Parameters.DUOS,'Daily')
                 h.DailySE_DUOS.Visible='on';
                 h.DailySE_DUOS.String=num2str(h.MyTariff.Parameters.DUOS.Daily.Value);
@@ -1890,7 +1891,7 @@ h.LoadedLoads.Ini=1;
                 h.DailySE_DTUOS.Visible='on';
                 h.DailySE_DTUOS.String=num2str(h.MyTariff.Parameters.DTUOS.Daily.Value);
                 h.DailyChargeSTR_DTUOS.Visible='on';
-                
+
             else
                 h.DailySE_DUOS.Visible='off';
                 h.DailyChargeSTR_DUOS.Visible='off';
@@ -2819,8 +2820,35 @@ h.LoadedLoads.Ini=1;
                                     h.MyTariff_Com.Parameters=h.MyTariff.Parameters.DTUOS;
                                     TarCom='DTUOS';
                             end
-                            % calculating the bill
-                            [Bill2,Stat]=BillCalc(h.MyTariff_Com,newLoad);
+                            
+                            % Calculating the bill
+                            if strcmp(h.MyTariff_Com.Type,'Demand Charge and TOU')
+                            % Separating the bill 
+                            TOU_part=h.MyTariff_Com;
+                            TOU_part.Parameters.Daily.Value=0;
+                           
+                            try TOU_part.Parameters.Energy.Value=0;
+                            end
+                            
+                            TOU_part.Parameters.Other= TOU_part.Parameters.Other(strcmp(TOU_part.Parameters.Other.Unit,'$/kWh'),:);
+                            TOU_part.Type = 'TOU Seasonal';
+                            [Bill2_TOU, Stat_TOU]=BillCalc(TOU_part,newLoad);  
+                            
+                            Dem_part=h.MyTariff_Com;
+                            try Dem_part.Parameters.Energy.Value=0;
+                            end
+                            Dem_part.Parameters.Other= Dem_part.Parameters.Other(strcmp(Dem_part.Parameters.Other.Unit,'$/kW/Month'),:);
+                            Dem_part.Type = 'Demand Charge';
+                            [Bill2_Dem, Stat_Dem]=BillCalc(Dem_part,newLoad);  
+                           
+                            Bill2.Total = Bill2_Dem.Total + Bill2_TOU.Total;
+                            Bill2.Components.Names =[ Bill2_Dem.Components.Names([1,3],:); Bill2_TOU.Components.Names(2,:)];
+                            Bill2.Components.Value =[ Bill2_Dem.Components.Value([1,3],:); Bill2_TOU.Components.Value(2,:)];
+                            Stat=[Stat_Dem,Stat_TOU];
+                            Bill2.Unitised=Bill2.Total/(Bill2_Dem.Total/Bill2_Dem.Unitised+Bill2_TOU.Total/Bill2_TOU.Unitised);
+                            else
+                              [Bill2,Stat]=BillCalc(h.MyTariff_Com,newLoad);  
+                            end
                             
                             h.Bill=Bill2;
                             if h.SelectTariff_GST.Value==0
@@ -4756,7 +4784,6 @@ h.LoadedLoads.Ini=1;
         mat2clip([h.StatTable.Properties.VariableNames;table2cell(h.StatTable)]);
     end
 
-
     function DeleteCase_Diag(src,evnt,k)
         if k>0
             if h.Confirm.BeforeDeleting.Case
@@ -4825,8 +4852,6 @@ h.LoadedLoads.Ini=1;
         end
         
     end
-
-
 
 
 %% Callbacks for Tariffs (adding, deleting, saving, etc):
@@ -5096,7 +5121,7 @@ h.LoadedLoads.Ini=1;
         h.CreateTar_F.TInfo= uicontrol(h.CreateTar_F.P,'Style','Text',...
             'String',['Info:'], ...
             'FontUnits','normalized',...
-            'ToolTipStrin','Additional info for this tariff. It will show up when you hover over the name of tariff once you select it.',...
+            'ToolTipString','Additional info for this tariff. It will show up when you hover over the name of tariff once you select it.',...
             'Units', 'normalized', 'Position',[.6 .795 .1 .06],...
             'HorizontalAlignment','left');
         
@@ -5130,7 +5155,7 @@ h.LoadedLoads.Ini=1;
             'String','NUOS=DUOS+TUOS', ...
             'FontUnits','normalized',...
             'Value',0,...
-            'ToolTipStrin','Make NUOS equivalent to DUOS+TUOS',...
+            'ToolTipString','Make NUOS equivalent to DUOS+TUOS',...
             'Units', 'normalized', 'Position',[.02 .01 .35 .06],...
             'HorizontalAlignment','left','Callback',@NewNUOSCB);
         
@@ -5226,7 +5251,6 @@ h.LoadedLoads.Ini=1;
             'Units', 'normalized', 'Position',[.77 .85 .1 .085],...
             'HorizontalAlignment','left');
         
-        
         % NUOS
         h.CT.N.DailyC_Text= uicontrol(h.tab_NUOS_P,'Style','Text',...
             'String',['Daily Charge ($/day):'], ...
@@ -5257,7 +5281,6 @@ h.LoadedLoads.Ini=1;
             'Value',1,...
             'Units', 'normalized', 'Position',[.77 .85 .1 .085],...
             'HorizontalAlignment','left');
-        
         
         % specific parameters for each tariff type
         switch Type
@@ -5311,14 +5334,12 @@ h.LoadedLoads.Ini=1;
                 h.CT.N.EnergyC_Text.Visible='Off';
                 h.CT.N.EnergyC_Val.Visible='Off';
                 
-                
                 Name={'Season 1'};
                 Rate=[0];
                 Unit={'$/kWh'};
                 StartMonth=[1];
                 EndMonth=[12];
                 h.CTTable=table(Name,Rate,Unit,StartMonth,EndMonth);
-                
                 
                 h.tab_DUOS_table=uitable(h.tab_DUOS_P,'Units', 'normalized','Position',[.02 .05 .96 .77],'CellEditCallback',@ChangedParamCT);
                 
@@ -5377,7 +5398,6 @@ h.LoadedLoads.Ini=1;
                 h.tab_NUOS_table.Data=table2cell(h.CTTable);
                 h.tab_NUOS_table.ColumnName=h.CTTable.Properties.VariableNames;
                 h.tab_NUOS_table.ColumnEditable=[true true false true false];
-                
                 
             case 'Block_Quarterly'
                 
@@ -5445,21 +5465,18 @@ h.LoadedLoads.Ini=1;
                 
                 % DUOS
                 h.tab_DUOS_table=uitable(h.tab_DUOS_P,'Units', 'normalized','Position',[.02 .05 .96 .77],'CellEditCallback',@ChangedParamCT);
-                
                 h.tab_DUOS_table.Data=table2cell(h.CTTable);
                 h.tab_DUOS_table.ColumnName=h.CTTable.Properties.VariableNames;
                 h.tab_DUOS_table.ColumnEditable=[true true false true true true true true true];
                 
                 % TUOS
                 h.tab_TUOS_table=uitable(h.tab_TUOS_P,'Units', 'normalized','Position',[.02 .05 .96 .77],'CellEditCallback',@ChangedParamCT);
-                
                 h.tab_TUOS_table.Data=table2cell(h.CTTable);
                 h.tab_TUOS_table.ColumnName=h.CTTable.Properties.VariableNames;
                 h.tab_TUOS_table.ColumnEditable=[true true false true true true true true true];
                 
                 % NUOS
                 h.tab_NUOS_table=uitable(h.tab_NUOS_P,'Units', 'normalized','Position',[.02 .05 .96 .77],'CellEditCallback',@ChangedParamCT);
-                
                 h.tab_NUOS_table.Data=table2cell(h.CTTable);
                 h.tab_NUOS_table.ColumnName=h.CTTable.Properties.VariableNames;
                 h.tab_NUOS_table.ColumnEditable=[true true false true true true true true true];
@@ -5514,9 +5531,8 @@ h.LoadedLoads.Ini=1;
                 h.tab_NUOS_table.ColumnName=h.CTTable.Properties.VariableNames;
                 h.tab_NUOS_table.ColumnEditable=[true true false true true true true true  true true true];
                 
-                
-                
-            case 'Demand'
+           case 'Demand'
+               
                 h.CT.Type='Demand Charge';
                 h.CT.D.EnergyC_Text.Visible='On';
                 h.CT.D.EnergyC_Val.Visible='On';
@@ -5569,8 +5585,61 @@ h.LoadedLoads.Ini=1;
                 h.tab_NUOS_table.ColumnName=h.CTTable.Properties.VariableNames;
                 h.tab_NUOS_table.ColumnEditable=[true true false true true true true true true true true true true  true true true true];
                 
-                
             case 'Demand_Block'
+                
+            case 'Demand_TOU'
+                 
+                h.CT.Type='Demand Charge and TOU';
+                h.CT.D.EnergyC_Text.Visible='Off';
+                h.CT.D.EnergyC_Val.Visible='Off';
+                h.CT.T.EnergyC_Text.Visible='Off';
+                h.CT.T.EnergyC_Val.Visible='Off';
+                h.CT.N.EnergyC_Text.Visible='Off';
+                h.CT.N.EnergyC_Val.Visible='Off';
+                h.CreateTar_F.RT.Visible='On';
+                h.CreateTar_F.AT.Visible='On';
+                
+                Name={'Summer peak'};
+                Rate=[0];
+                Unit={'Choose'};
+                StartHour=[0];
+                StartMin=[0];
+                EndHour=[0];
+                EndMin=[0];
+                StartMonth=[1];
+                EndMonth=[12];
+                Weekday=true;
+                Weekend=false;
+                NetworkPeak=false;
+                NumberofPeaks=[1];
+                DemandWindowTSNo=[1];
+                MinDemandkW=[0];
+                MinDemandCharge=[0];
+                TimeGroup=1;
+                DayAverage=false;
+                
+                h.CTTable=table(Name,Rate,Unit,StartHour,StartMin,EndHour,EndMin,StartMonth,EndMonth,Weekday,Weekend,NetworkPeak,NumberofPeaks,DemandWindowTSNo,MinDemandkW,MinDemandCharge,TimeGroup,DayAverage);
+                
+                % DUOS
+                h.tab_DUOS_table=uitable(h.tab_DUOS_P,'Units', 'normalized','Position',[.02 .05 .96 .77],'CellEditCallback',@ChangedParamCT);
+                h.tab_DUOS_table.ColumnName=h.CTTable.Properties.VariableNames;
+                h.tab_DUOS_table.ColumnEditable=[true true true true true true true true true true true true true true true true true true];
+                h.tab_DUOS_table.ColumnFormat=({[] [] {'$/kW/Month' '$/kWh'} [] [] [] [] [] [] [] [] [] [] [] [] [] [] []});
+                h.tab_DUOS_table.Data=table2cell(h.CTTable);
+
+                % TUOS
+                h.tab_TUOS_table=uitable(h.tab_TUOS_P,'Units', 'normalized','Position',[.02 .05 .96 .77],'CellEditCallback',@ChangedParamCT);
+                h.tab_TUOS_table.ColumnName=h.CTTable.Properties.VariableNames;
+                h.tab_TUOS_table.ColumnEditable=[true true true true true true  true true true true true true true  true true true true];
+                h.tab_TUOS_table.ColumnFormat=({[] [] {'$/kW/Month' '$/kWh'} [] [] [] [] [] [] [] [] [] [] [] [] [] [] []});
+                h.tab_TUOS_table.Data=table2cell(h.CTTable);
+
+                % NUOS
+                h.tab_NUOS_table=uitable(h.tab_NUOS_P,'Units', 'normalized','Position',[.02 .05 .96 .77],'CellEditCallback',@ChangedParamCT);
+                h.tab_NUOS_table.ColumnName=h.CTTable.Properties.VariableNames;
+                h.tab_NUOS_table.ColumnEditable=[true true true true true true true true true true true true true  true true true true];
+                h.tab_NUOS_table.ColumnFormat=({[] [] {'$/kW/Month' '$/kWh'} [] [] [] [] [] [] [] [] [] [] [] [] [] [] []});
+                h.tab_NUOS_table.Data=table2cell(h.CTTable);
 
         end
         
@@ -5590,7 +5659,6 @@ h.LoadedLoads.Ini=1;
         end
         
     end
-
 
     function AddRowToTariff(src,evnt)
         
@@ -5686,7 +5754,8 @@ h.LoadedLoads.Ini=1;
                 DelMsg;msgbox('There is already a tariff in this name! Please choose a different name and try again!')
             else
                 % saving
-                
+                h.TariffNew.Sector='Network';
+%                 h.TariffList.AllTariffs
                 h.TariffList.AllTariffs(1,size(h.TariffList.AllTariffs,2)+1)=h.TariffNew;
                 
                 [tmd,ind]=sort({h.TariffList.AllTariffs.Name});
@@ -5753,7 +5822,9 @@ h.LoadedLoads.Ini=1;
         choice = questdlg(['Please refer to instructions, section 5.3 (CREATING NEW LOAD DATA) and put the load and demographic data in required format before importing. You will need to import data after creating the load data. You can also open the sample file and see the required format or paste in your data into this file and save as a new load file and then load the file when creating the new load data.'], ...
             'Create load data', ...
             'Create now','Open sample file','Cancel','Cancel');
+        
         % Handle response
+       
         switch choice
             case 'Create now'
                 

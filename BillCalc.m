@@ -124,11 +124,9 @@ switch Tariff.Type
         
      Daily=Tariff.Parameters.Daily.Value*numel(unique(floor(datenum(LoadData.TimeStamp))));
 
-        
         if Tariff.Parameters.Other.Value<0
             Status='Usage rate should be positive.';
             Bill='';
-            
         else
             Status='';
             Bill.Daily=repmat(Daily,1,size(LoadData.Load,2));
@@ -263,12 +261,10 @@ switch Tariff.Type
                     TimeIndex((LoadData.TimeStamp.Month>=Tariff.Parameters.Other.StartMonth(T,1)|LoadData.TimeStamp.Month<=Tariff.Parameters.Other.EndMonth(T,1))&DayNumber>1&DayNumber<7&(60*LoadData.TimeStamp.Hour+LoadData.TimeStamp.Minute)>=(60*Tariff.Parameters.Other.StartHour(T,1)+Tariff.Parameters.Other.StartMin(T,1))&(60*LoadData.TimeStamp.Hour+LoadData.TimeStamp.Minute)<(60*Tariff.Parameters.Other.EndHour(T,1)+Tariff.Parameters.Other.EndMin(T,1)),1)=T;
                     TimeIndexCheck((LoadData.TimeStamp.Month>=Tariff.Parameters.Other.StartMonth(T,1)|LoadData.TimeStamp.Month<=Tariff.Parameters.Other.EndMonth(T,1))&DayNumber>1&DayNumber<7&(60*LoadData.TimeStamp.Hour+LoadData.TimeStamp.Minute)>=(60*Tariff.Parameters.Other.StartHour(T,1)+Tariff.Parameters.Other.StartMin(T,1))&(60*LoadData.TimeStamp.Hour+LoadData.TimeStamp.Minute)<(60*Tariff.Parameters.Other.EndHour(T,1)+Tariff.Parameters.Other.EndMin(T,1)),1)=...
                         TimeIndexCheck((LoadData.TimeStamp.Month>=Tariff.Parameters.Other.StartMonth(T,1)|LoadData.TimeStamp.Month<=Tariff.Parameters.Other.EndMonth(T,1))&DayNumber>1&DayNumber<7&(60*LoadData.TimeStamp.Hour+LoadData.TimeStamp.Minute)>=(60*Tariff.Parameters.Other.StartHour(T,1)+Tariff.Parameters.Other.StartMin(T,1))&(60*LoadData.TimeStamp.Hour+LoadData.TimeStamp.Minute)<(60*Tariff.Parameters.Other.EndHour(T,1)+Tariff.Parameters.Other.EndMin(T,1)),1)+1;
-                    
                 else
                     TimeIndex((LoadData.TimeStamp.Month>=Tariff.Parameters.Other.StartMonth(T,1)&LoadData.TimeStamp.Month<=Tariff.Parameters.Other.EndMonth(T,1))&DayNumber>1&DayNumber<7&(60*LoadData.TimeStamp.Hour+LoadData.TimeStamp.Minute)>=(60*Tariff.Parameters.Other.StartHour(T,1)+Tariff.Parameters.Other.StartMin(T,1))&(60*LoadData.TimeStamp.Hour+LoadData.TimeStamp.Minute)<(60*Tariff.Parameters.Other.EndHour(T,1)+Tariff.Parameters.Other.EndMin(T,1)),1)=T;
                     TimeIndexCheck((LoadData.TimeStamp.Month>=Tariff.Parameters.Other.StartMonth(T,1)&LoadData.TimeStamp.Month<=Tariff.Parameters.Other.EndMonth(T,1))&DayNumber>1&DayNumber<7&(60*LoadData.TimeStamp.Hour+LoadData.TimeStamp.Minute)>=(60*Tariff.Parameters.Other.StartHour(T,1)+Tariff.Parameters.Other.StartMin(T,1))&(60*LoadData.TimeStamp.Hour+LoadData.TimeStamp.Minute)<(60*Tariff.Parameters.Other.EndHour(T,1)+Tariff.Parameters.Other.EndMin(T,1)),1)=...
                         TimeIndexCheck((LoadData.TimeStamp.Month>=Tariff.Parameters.Other.StartMonth(T,1)&LoadData.TimeStamp.Month<=Tariff.Parameters.Other.EndMonth(T,1))&DayNumber>1&DayNumber<7&(60*LoadData.TimeStamp.Hour+LoadData.TimeStamp.Minute)>=(60*Tariff.Parameters.Other.StartHour(T,1)+Tariff.Parameters.Other.StartMin(T,1))&(60*LoadData.TimeStamp.Hour+LoadData.TimeStamp.Minute)<(60*Tariff.Parameters.Other.EndHour(T,1)+Tariff.Parameters.Other.EndMin(T,1)),1)+1;
-                    
                 end
             end
             
@@ -282,15 +278,15 @@ switch Tariff.Type
                     TimeIndex((LoadData.TimeStamp.Month>=Tariff.Parameters.Other.StartMonth(T,1)&LoadData.TimeStamp.Month<=Tariff.Parameters.Other.EndMonth(T,1))&(DayNumber==1|DayNumber==7)&(60*LoadData.TimeStamp.Hour+LoadData.TimeStamp.Minute)>=(60*Tariff.Parameters.Other.StartHour(T,1)+Tariff.Parameters.Other.StartMin(T,1))&(60*LoadData.TimeStamp.Hour+LoadData.TimeStamp.Minute)<(60*Tariff.Parameters.Other.EndHour(T,1)+Tariff.Parameters.Other.EndMin(T,1)),1)=T;
                     TimeIndexCheck((LoadData.TimeStamp.Month>=Tariff.Parameters.Other.StartMonth(T,1)&LoadData.TimeStamp.Month<=Tariff.Parameters.Other.EndMonth(T,1))&(DayNumber==1|DayNumber==7)&(60*LoadData.TimeStamp.Hour+LoadData.TimeStamp.Minute)>=(60*Tariff.Parameters.Other.StartHour(T,1)+Tariff.Parameters.Other.StartMin(T,1))&(60*LoadData.TimeStamp.Hour+LoadData.TimeStamp.Minute)<(60*Tariff.Parameters.Other.EndHour(T,1)+Tariff.Parameters.Other.EndMin(T,1)),1)=...
                         TimeIndexCheck((LoadData.TimeStamp.Month>=Tariff.Parameters.Other.StartMonth(T,1)&LoadData.TimeStamp.Month<=Tariff.Parameters.Other.EndMonth(T,1))&(DayNumber==1|DayNumber==7)&(60*LoadData.TimeStamp.Hour+LoadData.TimeStamp.Minute)>=(60*Tariff.Parameters.Other.StartHour(T,1)+Tariff.Parameters.Other.StartMin(T,1))&(60*LoadData.TimeStamp.Hour+LoadData.TimeStamp.Minute)<(60*Tariff.Parameters.Other.EndHour(T,1)+Tariff.Parameters.Other.EndMin(T,1)),1)+1;
-                    
                 end
             end
         end
         
-        
-        if numel(find(sign([Tariff.Parameters.Daily.Value;[Tariff.Parameters.Other.Rate]])<1))
+%         if numel(find(sign([Tariff.Parameters.Daily.Value;[Tariff.Parameters.Other.Rate]])<1))
+        if numel(find(sign([Tariff.Parameters.Other.Rate])<1))
             Status='Some tariff components rates are not correct!';
             Bill='';
+            
         elseif numel(find(TimeIndexCheck<1))>0
             Status='Tariff parameters are not sufficient for calculating bill!';
             Bill='';
@@ -298,6 +294,7 @@ switch Tariff.Type
             Status='There is a problem in tariff parameters. Some time periods are included in more than one tariff components!';
             Bill='';
         else
+            
             for T=1:size(Tariff.Parameters.Other,1)
                 BillT(T,:)=Tariff.Parameters.Other.Rate(T,1)*nansum(LoadData.Load(TimeIndex==T,:));
                 BillT_B(T,:)=Tariff.Parameters.Other.Rate(T,1)*nansum(BaseLoad(TimeIndex==T,:));
@@ -313,7 +310,7 @@ switch Tariff.Type
             Status='';
             
             Bill.Components.Value=[Bill.Daily;Bill.TOU];
-         Bill.Components.Names={'Daily';'TOU'};
+            Bill.Components.Names={'Daily';'TOU'};
          
          
         end
@@ -323,8 +320,7 @@ switch Tariff.Type
         Daily=Tariff.Parameters.Daily.Value*numel(unique(floor(datenum(LoadData.TimeStamp))));
 
         [DayNumber,~] = weekday(LoadData.TimeStamp);
-
-        LoadData.Load=[LoadData.Load,BaseLoad];
+        LoadData.Load = [LoadData.Load,BaseLoad];
 
                 TGs=unique(Tariff.Parameters.Other.TimeGroup);
                 TimeIndex=zeros(size(LoadData.TimeStamp));
@@ -387,7 +383,6 @@ switch Tariff.Type
                                 
                                 for Dn=1:size(unique(TL3.TimeStamp.Day),1)
                                     [NPD(Dn,1),ind2]=nanmax(TL3.NetworkLoad(TL3.TimeStamp.Day==Dn,1));
-                                    
                                     TempDay(Dn,:)=nanmean(TL3.Load(TL3.TimeStamp.Day==Dn,:));
                                 end
                                 TempDay(isnan(TempDay))=0;
