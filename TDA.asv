@@ -1920,20 +1920,20 @@ h.LoadedLoads.Ini=1;
             h.MyTariff=h.TariffList.AllTariffs(find(strcmp({h.TariffList.AllTariffs.Name},h.TariffListPup.String{h.TariffListPup.Value})));
             
             if strcmp(h.MyTariff.Sector,'Network')
-                
-                h.tabg_SelTar_NUOS.Parent= h.tabg_SelTar;
-                h.tabg_SelTar_TUOS.Parent= h.tabg_SelTar;
-                h.tabg_SelTar_DTUOS.Parent= h.tabg_SelTar;
-                h.tabg_SelTar_DUOS.Parent= h.tabg_SelTar;
-                h.tabg_SelTar_Retail.Parent=[];
+               
+            h.tabg_SelTar_NUOS.Parent= h.tabg_SelTar;
+            h.tabg_SelTar_TUOS.Parent= h.tabg_SelTar;
+            h.tabg_SelTar_DTUOS.Parent= h.tabg_SelTar;
+            h.tabg_SelTar_DUOS.Parent= h.tabg_SelTar;
+            h.tabg_SelTar_Retail.Parent=[];
             else
-                h.tabg_SelTar_NUOS.Parent= [];
-                h.tabg_SelTar_TUOS.Parent= [];
-                h.tabg_SelTar_DTUOS.Parent= [];
-                h.tabg_SelTar_DUOS.Parent= [];
-                h.tabg_SelTar_Retail.Parent= h.tabg_SelTar;
+            h.tabg_SelTar_NUOS.Parent= [];
+            h.tabg_SelTar_TUOS.Parent= [];
+            h.tabg_SelTar_DTUOS.Parent= [];
+            h.tabg_SelTar_DUOS.Parent= [];
+            h.tabg_SelTar_Retail.Parent= h.tabg_SelTar;   
             end
-            
+                
             h.SelectTariff_State_Value.String=h.MyTariff.State;
             h.NameSE.String=h.MyTariff.Name;
             try
@@ -1942,146 +1942,146 @@ h.LoadedLoads.Ini=1;
             h.SelectTariff_Type_Value.String=h.MyTariff.Type;
             
             if strcmp(h.MyTariff.Sector,'Network')
+            
+            
+            % Check if it has daily parameter and hide/show the option accordingly
+            
+            if isfield(h.MyTariff.Parameters.DUOS,'Daily')
+                h.DailySE_DUOS.Visible='on';
+                h.DailySE_DUOS.String=num2str(h.MyTariff.Parameters.DUOS.Daily.Value);
+                h.DailyChargeSTR_DUOS.Visible='on';
                 
+                h.DailySE_TUOS.Visible='on';
+                h.DailySE_TUOS.String=num2str(h.MyTariff.Parameters.TUOS.Daily.Value);
+                h.DailyChargeSTR_TUOS.Visible='on';
                 
-                % Check if it has daily parameter and hide/show the option accordingly
+                h.DailySE_NUOS.Visible='on';
+                h.DailySE_NUOS.String=num2str(h.MyTariff.Parameters.NUOS.Daily.Value);
+                h.DailyChargeSTR_NUOS.Visible='on';
                 
-                if isfield(h.MyTariff.Parameters.DUOS,'Daily')
-                    h.DailySE_DUOS.Visible='on';
-                    h.DailySE_DUOS.String=num2str(h.MyTariff.Parameters.DUOS.Daily.Value);
-                    h.DailyChargeSTR_DUOS.Visible='on';
-                    
-                    h.DailySE_TUOS.Visible='on';
-                    h.DailySE_TUOS.String=num2str(h.MyTariff.Parameters.TUOS.Daily.Value);
-                    h.DailyChargeSTR_TUOS.Visible='on';
-                    
-                    h.DailySE_NUOS.Visible='on';
-                    h.DailySE_NUOS.String=num2str(h.MyTariff.Parameters.NUOS.Daily.Value);
-                    h.DailyChargeSTR_NUOS.Visible='on';
-                    
-                    h.DailySE_DTUOS.Visible='on';
-                    h.DailySE_DTUOS.String=num2str(h.MyTariff.Parameters.DTUOS.Daily.Value);
-                    h.DailyChargeSTR_DTUOS.Visible='on';
-                    
-                else
-                    h.DailySE_DUOS.Visible='off';
-                    h.DailyChargeSTR_DUOS.Visible='off';
-                    h.DailySE_TUOS.Visible='off';
-                    h.DailyChargeSTR_TUOS.Visible='off';
-                    h.DailySE_NUOS.Visible='off';
-                    h.DailyChargeSTR_NUOS.Visible='off';
-                    h.DailySE_DTUOS.Visible='off';
-                    h.DailyChargeSTR_DTUOS.Visible='off';
-                end
+                h.DailySE_DTUOS.Visible='on';
+                h.DailySE_DTUOS.String=num2str(h.MyTariff.Parameters.DTUOS.Daily.Value);
+                h.DailyChargeSTR_DTUOS.Visible='on';
+
+            else
+                h.DailySE_DUOS.Visible='off';
+                h.DailyChargeSTR_DUOS.Visible='off';
+                h.DailySE_TUOS.Visible='off';
+                h.DailyChargeSTR_TUOS.Visible='off';
+                h.DailySE_NUOS.Visible='off';
+                h.DailyChargeSTR_NUOS.Visible='off';
+                h.DailySE_DTUOS.Visible='off';
+                h.DailyChargeSTR_DTUOS.Visible='off';
+            end
+            
+            % check if it has volumetric energy parameter and hide/show the option accordingly
+            if isfield(h.MyTariff.Parameters.DUOS,'Energy')
+                h.EnergyCostEdit_DUOS.Visible='on';
+                h.EnergyCostEdit_DUOS.String=num2str(h.MyTariff.Parameters.DUOS.Energy.Value);
+                h.EnergyCostStr_DUOS.Visible='on';
                 
-                % check if it has volumetric energy parameter and hide/show the option accordingly
-                if isfield(h.MyTariff.Parameters.DUOS,'Energy')
-                    h.EnergyCostEdit_DUOS.Visible='on';
-                    h.EnergyCostEdit_DUOS.String=num2str(h.MyTariff.Parameters.DUOS.Energy.Value);
-                    h.EnergyCostStr_DUOS.Visible='on';
-                    
-                    h.EnergyCostEdit_TUOS.Visible='on';
-                    h.EnergyCostEdit_TUOS.String=num2str(h.MyTariff.Parameters.TUOS.Energy.Value);
-                    h.EnergyCostStr_TUOS.Visible='on';
-                    
-                    h.EnergyCostEdit_NUOS.Visible='on';
-                    h.EnergyCostEdit_NUOS.String=num2str(h.MyTariff.Parameters.NUOS.Energy.Value);
-                    h.EnergyCostStr_NUOS.Visible='on';
-                    
-                    h.EnergyCostEdit_DTUOS.Visible='on';
-                    h.EnergyCostEdit_DTUOS.String=num2str(h.MyTariff.Parameters.DTUOS.Energy.Value);
-                    h.EnergyCostStr_DTUOS.Visible='on';
-                    
-                else
-                    h.EnergyCostEdit_DUOS.Visible='off';
-                    h.EnergyCostStr_DUOS.Visible='off';
-                    
-                    h.EnergyCostEdit_TUOS.Visible='off';
-                    h.EnergyCostStr_TUOS.Visible='off';
-                    
-                    h.EnergyCostEdit_NUOS.Visible='off';
-                    h.EnergyCostStr_NUOS.Visible='off';
-                    
-                    h.EnergyCostEdit_DTUOS.Visible='off';
-                    h.EnergyCostStr_DTUOS.Visible='off';
-                    
-                end
+                h.EnergyCostEdit_TUOS.Visible='on';
+                h.EnergyCostEdit_TUOS.String=num2str(h.MyTariff.Parameters.TUOS.Energy.Value);
+                h.EnergyCostStr_TUOS.Visible='on';
                 
-                % show the table containing all the parameters:
-                h.Mytable_DUOS=h.MyTariff.Parameters.DUOS.Other;
-                h.Mytable_TUOS=h.MyTariff.Parameters.TUOS.Other;
-                h.Mytable_NUOS=h.MyTariff.Parameters.NUOS.Other;
-                h.Mytable_DTUOS=h.MyTariff.Parameters.DTUOS.Other;
+                h.EnergyCostEdit_NUOS.Visible='on';
+                h.EnergyCostEdit_NUOS.String=num2str(h.MyTariff.Parameters.NUOS.Energy.Value);
+                h.EnergyCostStr_NUOS.Visible='on';
                 
-                % put the parameters of the table to the parameters of the tariff
-                h.TariffParTable_DUOS.Data=table2cell(h.Mytable_DUOS);
-                h.TariffParTable_DUOS.ColumnName=h.Mytable_DUOS.Properties.VariableNames;
-                
-                h.TariffParTable_TUOS.Data=table2cell(h.Mytable_TUOS);
-                h.TariffParTable_TUOS.ColumnName=h.Mytable_TUOS.Properties.VariableNames;
-                
-                h.TariffParTable_NUOS.Data=table2cell(h.Mytable_NUOS);
-                h.TariffParTable_NUOS.ColumnName=h.Mytable_NUOS.Properties.VariableNames;
-                
-                h.TariffParTable_DTUOS.Data=table2cell(h.Mytable_DTUOS);
-                h.TariffParTable_DTUOS.ColumnName=h.Mytable_DTUOS.Properties.VariableNames;
-                
-                for i=1:size(h.TariffParTable_DUOS.ColumnName,1)
-                    temp2= h.TariffParTable_DUOS.ColumnName{i,1};
-                    if strcmp(temp2,'Unit')||strcmp(temp2,'Comment')||strcmp(temp2,'Bound_unit')
-                        h.TariffParTable_DUOS.ColumnEditable(1,i)=false;
-                        h.TariffParTable_TUOS.ColumnEditable(1,i)=false;
-                        h.TariffParTable_NUOS.ColumnEditable(1,i)=false;
-                        h.TariffParTable_DTUOS.ColumnEditable(1,i)=false;
-                    else
-                        h.TariffParTable_DUOS.ColumnEditable(1,i)=true;
-                        h.TariffParTable_TUOS.ColumnEditable(1,i)=true;
-                        h.TariffParTable_NUOS.ColumnEditable(1,i)=true;
-                        h.TariffParTable_DTUOS.ColumnEditable(1,i)=true;
-                        
-                    end
-                end
+                h.EnergyCostEdit_DTUOS.Visible='on';
+                h.EnergyCostEdit_DTUOS.String=num2str(h.MyTariff.Parameters.DTUOS.Energy.Value);
+                h.EnergyCostStr_DTUOS.Visible='on';
                 
             else
+                h.EnergyCostEdit_DUOS.Visible='off';
+                h.EnergyCostStr_DUOS.Visible='off';
                 
+                h.EnergyCostEdit_TUOS.Visible='off';
+                h.EnergyCostStr_TUOS.Visible='off';
+                
+                h.EnergyCostEdit_NUOS.Visible='off';
+                h.EnergyCostStr_NUOS.Visible='off';
+                
+                h.EnergyCostEdit_DTUOS.Visible='off';
+                h.EnergyCostStr_DTUOS.Visible='off';
+                
+            end
+            
+            % show the table containing all the parameters:
+            h.Mytable_DUOS=h.MyTariff.Parameters.DUOS.Other;
+            h.Mytable_TUOS=h.MyTariff.Parameters.TUOS.Other;
+            h.Mytable_NUOS=h.MyTariff.Parameters.NUOS.Other;
+            h.Mytable_DTUOS=h.MyTariff.Parameters.DTUOS.Other;
+            
+            % put the parameters of the table to the parameters of the tariff
+            h.TariffParTable_DUOS.Data=table2cell(h.Mytable_DUOS);
+            h.TariffParTable_DUOS.ColumnName=h.Mytable_DUOS.Properties.VariableNames;
+            
+            h.TariffParTable_TUOS.Data=table2cell(h.Mytable_TUOS);
+            h.TariffParTable_TUOS.ColumnName=h.Mytable_TUOS.Properties.VariableNames;
+            
+            h.TariffParTable_NUOS.Data=table2cell(h.Mytable_NUOS);
+            h.TariffParTable_NUOS.ColumnName=h.Mytable_NUOS.Properties.VariableNames;
+            
+            h.TariffParTable_DTUOS.Data=table2cell(h.Mytable_DTUOS);
+            h.TariffParTable_DTUOS.ColumnName=h.Mytable_DTUOS.Properties.VariableNames;
+            
+            for i=1:size(h.TariffParTable_DUOS.ColumnName,1)
+                temp2= h.TariffParTable_DUOS.ColumnName{i,1};
+                if strcmp(temp2,'Unit')||strcmp(temp2,'Comment')||strcmp(temp2,'Bound_unit')
+                    h.TariffParTable_DUOS.ColumnEditable(1,i)=false;
+                    h.TariffParTable_TUOS.ColumnEditable(1,i)=false;
+                    h.TariffParTable_NUOS.ColumnEditable(1,i)=false;
+                    h.TariffParTable_DTUOS.ColumnEditable(1,i)=false;
+                else
+                    h.TariffParTable_DUOS.ColumnEditable(1,i)=true;
+                    h.TariffParTable_TUOS.ColumnEditable(1,i)=true;
+                    h.TariffParTable_NUOS.ColumnEditable(1,i)=true;
+                    h.TariffParTable_DTUOS.ColumnEditable(1,i)=true;
+                    
+                end
+            end
+            
+            else
+               
                 % Check if it has daily parameter and hide/show the option accordingly
+            
+            if isfield(h.MyTariff.Parameters.Retail,'Daily')
+                h.DailySE_Retail.Visible='on';
+                h.DailySE_Retail.String=num2str(h.MyTariff.Parameters.Retail.Daily.Value);
+                h.DailyChargeSTR_Retail.Visible='on';
                 
-                if isfield(h.MyTariff.Parameters.Retail,'Daily')
-                    h.DailySE_Retail.Visible='on';
-                    h.DailySE_Retail.String=num2str(h.MyTariff.Parameters.Retail.Daily.Value);
-                    h.DailyChargeSTR_Retail.Visible='on';
-                    
+            else
+                h.DailySE_Retail.Visible='off';
+                h.DailyChargeSTR_Retail.Visible='off';
+               
+            end
+            
+            % check if it has volumetric energy parameter and hide/show the option accordingly
+            if isfield(h.MyTariff.Parameters.Retail,'Energy')
+                h.EnergyCostEdit_Retail.Visible='on';
+                h.EnergyCostEdit_Retail.String=num2str(h.MyTariff.Parameters.Retail.Energy.Value);
+                h.EnergyCostStr_Retail.Visible='on';
+            else
+                h.EnergyCostEdit_Retail.Visible='off';
+                h.EnergyCostStr_Retail.Visible='off';
+            end
+            
+            % show the table containing all the parameters:
+            h.Mytable_Retail=h.MyTariff.Parameters.Retail.Other;
+            % put the parameters of the table to the parameters of the tariff
+            h.TariffParTable_Retail.Data=table2cell(h.Mytable_Retail);
+            h.TariffParTable_Retail.ColumnName=h.Mytable_Retail.Properties.VariableNames;
+            
+            for i=1:size(h.TariffParTable_Retail.ColumnName,1)
+                temp2= h.TariffParTable_Retail.ColumnName{i,1};
+                if strcmp(temp2,'Unit')||strcmp(temp2,'Comment')||strcmp(temp2,'Bound_unit')
+                    h.TariffParTable_Retail.ColumnEditable(1,i)=false;
                 else
-                    h.DailySE_Retail.Visible='off';
-                    h.DailyChargeSTR_Retail.Visible='off';
-                    
+                    h.TariffParTable_Retail.ColumnEditable(1,i)=true;
+
                 end
-                
-                % check if it has volumetric energy parameter and hide/show the option accordingly
-                if isfield(h.MyTariff.Parameters.Retail,'Energy')
-                    h.EnergyCostEdit_Retail.Visible='on';
-                    h.EnergyCostEdit_Retail.String=num2str(h.MyTariff.Parameters.Retail.Energy.Value);
-                    h.EnergyCostStr_Retail.Visible='on';
-                else
-                    h.EnergyCostEdit_Retail.Visible='off';
-                    h.EnergyCostStr_Retail.Visible='off';
-                end
-                
-                % show the table containing all the parameters:
-                h.Mytable_Retail=h.MyTariff.Parameters.Retail.Other;
-                % put the parameters of the table to the parameters of the tariff
-                h.TariffParTable_Retail.Data=table2cell(h.Mytable_Retail);
-                h.TariffParTable_Retail.ColumnName=h.Mytable_Retail.Properties.VariableNames;
-                
-                for i=1:size(h.TariffParTable_Retail.ColumnName,1)
-                    temp2= h.TariffParTable_Retail.ColumnName{i,1};
-                    if strcmp(temp2,'Unit')||strcmp(temp2,'Comment')||strcmp(temp2,'Bound_unit')
-                        h.TariffParTable_Retail.ColumnEditable(1,i)=false;
-                    else
-                        h.TariffParTable_Retail.ColumnEditable(1,i)=true;
-                        
-                    end
-                end
+            end
                 
             end
             
@@ -2249,7 +2249,7 @@ h.LoadedLoads.Ini=1;
 
 % Saving Project
     function SaveProjAs_CB(src,evnt)
-        % Creating the
+       % Creating the  
         h.SaveProj.F = figure('Name','Save Project as','NumberTitle','off', ...
             'HandleVisibility','on','Resize','off', ...
             'Position',[200,200, 400, 150],...
@@ -2934,38 +2934,38 @@ h.LoadedLoads.Ini=1;
                                     h.MyTariff_Com.Parameters=h.MyTariff.Parameters.DTUOS;
                                     TarCom='DTUOS';
                                     
-                                case 'Retail'
-                                    h.MyTariff_Com.Parameters=h.MyTariff.Parameters.Retail;
-                                    TarCom='Retail';
+                              case 'Retail'
+                                   h.MyTariff_Com.Parameters=h.MyTariff.Parameters.Retail;
+                                   TarCom='Retail';
                             end
                             
                             % Calculating the bill
                             if strcmp(h.MyTariff_Com.Type,'Demand Charge and TOU')
-                                % Separating the bill
-                                TOU_part=h.MyTariff_Com;
-                                TOU_part.Parameters.Daily.Value=0;
-                                
-                                try TOU_part.Parameters.Energy.Value=0;
-                                end
-                                
-                                TOU_part.Parameters.Other= TOU_part.Parameters.Other(strcmp(TOU_part.Parameters.Other.Unit,'$/kWh'),:);
-                                TOU_part.Type = 'TOU Seasonal';
-                                [Bill2_TOU, Stat_TOU]=BillCalc(TOU_part,newLoad);
-                                
-                                Dem_part=h.MyTariff_Com;
-                                try Dem_part.Parameters.Energy.Value=0;
-                                end
-                                Dem_part.Parameters.Other= Dem_part.Parameters.Other(strcmp(Dem_part.Parameters.Other.Unit,'$/kW/Month'),:);
-                                Dem_part.Type = 'Demand Charge';
-                                [Bill2_Dem, Stat_Dem]=BillCalc(Dem_part,newLoad);
-                                
-                                Bill2.Total = Bill2_Dem.Total + Bill2_TOU.Total;
-                                Bill2.Components.Names =[ Bill2_Dem.Components.Names([1,3],:); Bill2_TOU.Components.Names(2,:)];
-                                Bill2.Components.Value =[ Bill2_Dem.Components.Value([1,3],:); Bill2_TOU.Components.Value(2,:)];
-                                Stat=[Stat_Dem,Stat_TOU];
-                                Bill2.Unitised=Bill2.Total/(Bill2_Dem.Total/Bill2_Dem.Unitised+Bill2_TOU.Total/Bill2_TOU.Unitised);
+                            % Separating the bill 
+                            TOU_part=h.MyTariff_Com;
+                            TOU_part.Parameters.Daily.Value=0;
+                           
+                            try TOU_part.Parameters.Energy.Value=0;
+                            end
+                            
+                            TOU_part.Parameters.Other= TOU_part.Parameters.Other(strcmp(TOU_part.Parameters.Other.Unit,'$/kWh'),:);
+                            TOU_part.Type = 'TOU Seasonal';
+                            [Bill2_TOU, Stat_TOU]=BillCalc(TOU_part,newLoad);  
+                            
+                            Dem_part=h.MyTariff_Com;
+                            try Dem_part.Parameters.Energy.Value=0;
+                            end
+                            Dem_part.Parameters.Other= Dem_part.Parameters.Other(strcmp(Dem_part.Parameters.Other.Unit,'$/kW/Month'),:);
+                            Dem_part.Type = 'Demand Charge';
+                            [Bill2_Dem, Stat_Dem]=BillCalc(Dem_part,newLoad);  
+                           
+                            Bill2.Total = Bill2_Dem.Total + Bill2_TOU.Total;
+                            Bill2.Components.Names =[ Bill2_Dem.Components.Names([1,3],:); Bill2_TOU.Components.Names(2,:)];
+                            Bill2.Components.Value =[ Bill2_Dem.Components.Value([1,3],:); Bill2_TOU.Components.Value(2,:)];
+                            Stat=[Stat_Dem,Stat_TOU];
+                            Bill2.Unitised=Bill2.Total/(Bill2_Dem.Total/Bill2_Dem.Unitised+Bill2_TOU.Total/Bill2_TOU.Unitised);
                             else
-                                [Bill2,Stat]=BillCalc(h.MyTariff_Com,newLoad);
+                              [Bill2,Stat]=BillCalc(h.MyTariff_Com,newLoad);  
                             end
                             
                             h.Bill=Bill2;
@@ -2976,7 +2976,7 @@ h.LoadedLoads.Ini=1;
                             end
                             if  numel(Stat)==0
                                 % assigning analyses and data to the
-                                % AllDiagrams
+                                % AllDiagrams 
                                 h.AllDiagrams{ADS+1,1}.TariffDetail= h.MyTariff_Com;
                                 h.AllDiagrams{ADS+1,1}.SelectedDatabase=h.CurrentLoad_Name;
                                 h.AllDiagrams{ADS+1,1}.Bill=h.Bill;
@@ -3018,7 +3018,7 @@ h.LoadedLoads.Ini=1;
                                 %   h.ListofDualVarFigs={'Annual kWh';'Average Demand at ''N'' Network Peaks';'Average Demand at ''N'' Network Monthly Peaks';'Average Demand at Top ''N'' Peaks';'Average Demand at Top ''N'' Monthly Peaks';'Average Daily kWh';'Bill ($/year)';'Unitised Bill (kW)'}; % Options for plotting in Dual variable figure
                                 
                                 h.AllDiagrams{ADS+1,1}.Analysis=table(Annual_kWh,Demand_at_Network_Peak_kWh,Demand_at_Monthly_Network_Peak_kWh,Annual_Peak_kWh,Monthly_Peak_kWh,Average_Daily_kWh,Average_Daily_Peak_kWh,Bill,Unitised_Bill,...
-                                    'VariableName',{'Annual_kWh','Demand_at_Network_Peak_kWh','Demand_at_Monthly_Network_Peak_kWh','Annual_Peak_kWh','Monthly_Peak_kWh','Average_Daily_kWh','Average_Daily_Peak_kWh','Bill','Unitised_Bill'});
+                                    'VariableName',{'Annual_kWh','Demand_at_Network_Peak_kWh','Demand_at_Monthly_Network_Peak_kWh','Annual_Peak_kWh','Monthly_Peak_kWh','Average_Daily_kWh','Average_Daily_Peak_kWh','Bill','Unitised_Bill'});                                
                                 
                                 
                                 newTS1= h.AllLoads{LoadNo,2}.Load.TimeStamp(2:end);
@@ -3150,7 +3150,7 @@ h.LoadedLoads.Ini=1;
                 % What is selected for X axis:
                 XSelAx=h.DualVar_FigX.Value;
                 
-                %%%%%%%%%%%%%%%%%%%%%%%%%%%%% What is selected for X axis:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% What is selected for X axis:
                 switch h.DualVar_FigX.String{h.DualVar_FigX.Value}
                     case 'Annual kWh'
                         h.DatatoPlot.XTitle='Electricity Usage (kWh/year)';
@@ -3423,7 +3423,7 @@ h.LoadedLoads.Ini=1;
                         
                 end
                 
-                %%%%%%%%%%%%%%%%%%%%%%%%%%%%% What is selected for Y axis:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% What is selected for Y axis:
                 YSelAx=h.DualVar_FigY.Value;
                 % Put what is selected for Y axis:
                 switch h.DualVar_FigY.String{h.DualVar_FigY.Value}
@@ -3556,11 +3556,11 @@ h.LoadedLoads.Ini=1;
                             end
                             
                             TempPeakLoads{kT,3}=reshape(max(reshape(TempPeakLoads{kT,2}.Load,48,[])),[],size(TempPeakLoads{kT,2}.Load,2));
-                            
+
                             
                             TempPeakLoads{kT,2}=sort( TempPeakLoads{kT,2}.Load,'descend');
                             TempPeakLoads{kT,3}=sort(TempPeakLoads{kT,3},'descend');
-                            
+
                         end
                         
                         for j=1:size(h.AllDiagrams,1)
@@ -3622,7 +3622,7 @@ h.LoadedLoads.Ini=1;
                                 TempPeakLoads{kT,4}{im,1}=TempPeakLoads{kT,2}.Load(TempPeakLoads{kT,2}.TimeStamp.Month==im,:);
                                 TempPeakLoads{kT,5}{im,1}=reshape(max(reshape(TempPeakLoads{kT,4}{im,1},48,[])),[],size(TempPeakLoads{kT,4}{im,1},2));
                             end
-                            
+
                             for im=1:12
                                 TempPeakLoads{kT,4}{im,1}=sort(TempPeakLoads{kT,4}{im,1},'descend');
                                 TempPeakLoads{kT,5}{im,1}=sort(TempPeakLoads{kT,5}{im,1},'descend');
@@ -3678,11 +3678,11 @@ h.LoadedLoads.Ini=1;
                             end
                             
                         end
-                        
+                          
                     case 'Average Daily kWh'
                         h.DatatoPlot.YTitle='Average Daily usage (kWh)';
                         h.SeasonsPanel.Visible='off';
-                        
+                      
                     case 'Average Daily Peak'
                         h.SeasonsPanel.Visible='off';
                         
@@ -3708,7 +3708,7 @@ h.LoadedLoads.Ini=1;
                     if numel(CC)==1
                         CC=[CC,CC];
                     end
-                    % Plotting the scatter
+                   % Plotting the scatter
                     h.Plotted_Dual{i,1}=scatter(h.DualVarAxis,XData1,YData1,40,'.','DisplayName',[h.AllDiagrams{i,1}.CaseName,'   CC:',num2str(floor(1000*CC(1,2))/1000)]);
                     hold on
                     h.MaxD=max(h.MaxD,size(XData1,1));
@@ -3757,7 +3757,7 @@ h.LoadedLoads.Ini=1;
         if size(h.AllDiagrams,1)>0
             DelMsg;msgbox(['Please wait!'])
             if k==1
-                
+
                 axes(h.SingVarAxis)
                 cla(h.SingVarAxis)
                 hold off
@@ -3803,7 +3803,7 @@ h.LoadedLoads.Ini=1;
                         
                     end
                 case 'Daily kWh Histogram'
-                    
+
                     
                     if k==1 % updating figure
                         h.maxBin=0;
@@ -3845,7 +3845,7 @@ h.LoadedLoads.Ini=1;
                     end
                     
                 case 'Monthly Average kWh'
-                    
+
                     
                     if k==1 % updating figure
                         
@@ -3892,7 +3892,7 @@ h.LoadedLoads.Ini=1;
                         
                     end
                 case 'Seasonal Daily Pattern'
-                    
+
                     if k==1 % updating figure
                         
                         for i=1:size(h.AllDiagrams,1)
@@ -3906,7 +3906,7 @@ h.LoadedLoads.Ini=1;
                             h.DatatoClip_S(:,i)=Seas2;
                             
                         end
-                        
+
                         % Plot properties
                         xlabel('Hour')
                         ylabel('Daily Average Load (kWh)')
@@ -4069,7 +4069,7 @@ h.LoadedLoads.Ini=1;
                     
                     
                 case 'Bill Box Plot'
-                    
+
                     if k==1 % updating figure
                         
                         BPdata=[];
@@ -4421,7 +4421,7 @@ h.LoadedLoads.Ini=1;
         for i=1:size(h.AllDiagrams,1)
             h.menuExport_cases{i,1}=uimenu(h.menuExpRes,'Label',[h.AllDiagrams{i,1}.CaseName],'Callback',{@Exp_Case_CB,i});
         end
-        
+
     end
 
     function Exp_AllCases_CB(src,evnt)
@@ -4895,7 +4895,7 @@ h.LoadedLoads.Ini=1;
             'FontWeight','bold',...
             'FontUnits','normalized',...
             'Callback', @CopyStatData);
-        
+
     end
 
     function CopyStatData(src,evnt)
@@ -4990,7 +4990,7 @@ h.LoadedLoads.Ini=1;
     end
 
     function DelCurTar2(src,evnt)
-        
+
         if ispc
             
             if  h.TariffList.AllTariffs(1,strcmp({h.TariffList.AllTariffs.Name},h.TariffListPup.String{h.TariffListPup.Value})).Original
@@ -5082,46 +5082,46 @@ h.LoadedLoads.Ini=1;
             h.NewTariffName.String=tempname;
         end
         if strcmp(h.MyTariff.Sector,'Network')
-            h.MyTariff.Parameters.DUOS.Other=cell2table(h.TariffParTable_DUOS.Data);
-            h.MyTariff.Parameters.TUOS.Other=cell2table(h.TariffParTable_TUOS.Data);
-            h.MyTariff.Parameters.NUOS.Other=cell2table(h.TariffParTable_NUOS.Data);
-            h.MyTariff.Parameters.DTUOS.Other=cell2table(h.TariffParTable_DTUOS.Data);
+        h.MyTariff.Parameters.DUOS.Other=cell2table(h.TariffParTable_DUOS.Data);
+        h.MyTariff.Parameters.TUOS.Other=cell2table(h.TariffParTable_TUOS.Data);
+        h.MyTariff.Parameters.NUOS.Other=cell2table(h.TariffParTable_NUOS.Data);
+        h.MyTariff.Parameters.DTUOS.Other=cell2table(h.TariffParTable_DTUOS.Data);
+        
+        h.MyTariff.Parameters.DUOS.Other.Properties.VariableNames=h.TariffParTable_DUOS.ColumnName;
+        h.MyTariff.Parameters.TUOS.Other.Properties.VariableNames=h.TariffParTable_DUOS.ColumnName;
+        h.MyTariff.Parameters.DTUOS.Other.Properties.VariableNames=h.TariffParTable_DUOS.ColumnName;
+        h.MyTariff.Parameters.NUOS.Other.Properties.VariableNames=h.TariffParTable_DUOS.ColumnName;
+        
+        if strcmp(h.DailyChargeSTR_DUOS.Visible,'on')
+            h.MyTariff.Parameters.DUOS.Daily.Value=str2num(h.DailySE_DUOS.String);
+            h.MyTariff.Parameters.TUOS.Daily.Value=str2num(h.DailySE_TUOS.String);
+            h.MyTariff.Parameters.DTUOS.Daily.Value=str2num(h.DailySE_DTUOS.String);
+            h.MyTariff.Parameters.NUOS.Daily.Value=str2num(h.DailySE_NUOS.String);
             
-            h.MyTariff.Parameters.DUOS.Other.Properties.VariableNames=h.TariffParTable_DUOS.ColumnName;
-            h.MyTariff.Parameters.TUOS.Other.Properties.VariableNames=h.TariffParTable_DUOS.ColumnName;
-            h.MyTariff.Parameters.DTUOS.Other.Properties.VariableNames=h.TariffParTable_DUOS.ColumnName;
-            h.MyTariff.Parameters.NUOS.Other.Properties.VariableNames=h.TariffParTable_DUOS.ColumnName;
+        end
+        if strcmp(h.EnergyCostStr_DUOS.Visible,'on')
+            h.MyTariff.Parameters.DUOS.Energy.Value=str2num(h.EnergyCostEdit_DUOS.String);
+            h.MyTariff.Parameters.TUOS.Energy.Value=str2num(h.EnergyCostEdit_TUOS.String);
+            h.MyTariff.Parameters.DTUOS.Energy.Value=str2num(h.EnergyCostEdit_DTUOS.String);
+            h.MyTariff.Parameters.NUOS.Energy.Value=str2num(h.EnergyCostEdit_NUOS.String);
             
-            if strcmp(h.DailyChargeSTR_DUOS.Visible,'on')
-                h.MyTariff.Parameters.DUOS.Daily.Value=str2num(h.DailySE_DUOS.String);
-                h.MyTariff.Parameters.TUOS.Daily.Value=str2num(h.DailySE_TUOS.String);
-                h.MyTariff.Parameters.DTUOS.Daily.Value=str2num(h.DailySE_DTUOS.String);
-                h.MyTariff.Parameters.NUOS.Daily.Value=str2num(h.DailySE_NUOS.String);
-                
-            end
-            if strcmp(h.EnergyCostStr_DUOS.Visible,'on')
-                h.MyTariff.Parameters.DUOS.Energy.Value=str2num(h.EnergyCostEdit_DUOS.String);
-                h.MyTariff.Parameters.TUOS.Energy.Value=str2num(h.EnergyCostEdit_TUOS.String);
-                h.MyTariff.Parameters.DTUOS.Energy.Value=str2num(h.EnergyCostEdit_DTUOS.String);
-                h.MyTariff.Parameters.NUOS.Energy.Value=str2num(h.EnergyCostEdit_NUOS.String);
-                
-            end
+        end
         else
             
-            h.MyTariff.Parameters.Retail.Other=cell2table(h.TariffParTable_Retail.Data);
+        h.MyTariff.Parameters.Retail.Other=cell2table(h.TariffParTable_Retail.Data);
+        
+        h.MyTariff.Parameters.Retail.Other.Properties.VariableNames=h.TariffParTable_Retail.ColumnName;
+       
+        
+        if strcmp(h.DailyChargeSTR_Retail.Visible,'on')
+            h.MyTariff.Parameters.Retail.Daily.Value=str2num(h.DailySE_Retail.String);
             
-            h.MyTariff.Parameters.Retail.Other.Properties.VariableNames=h.TariffParTable_Retail.ColumnName;
+        end
+        if strcmp(h.EnergyCostStr_Retail.Visible,'on')
+            h.MyTariff.Parameters.Retail.Energy.Value=str2num(h.EnergyCostEdit_Retail.String);
             
-            
-            if strcmp(h.DailyChargeSTR_Retail.Visible,'on')
-                h.MyTariff.Parameters.Retail.Daily.Value=str2num(h.DailySE_Retail.String);
-                
-            end
-            if strcmp(h.EnergyCostStr_Retail.Visible,'on')
-                h.MyTariff.Parameters.Retail.Energy.Value=str2num(h.EnergyCostEdit_Retail.String);
-                
-            end
-            
+        end
+        
         end
         % as the tariff is editted:
         h.SthEdited=1;
@@ -5133,33 +5133,33 @@ h.LoadedLoads.Ini=1;
         
         
         if strcmp(h.MyTariff.Sector,'Network')
-            NewTariff1=h.MyTariff;
-            NewTariff1.Parameters=h.MyTariff.Parameters.DUOS;
-            NewTariff2=h.MyTariff;
-            NewTariff2.Parameters=h.MyTariff.Parameters.TUOS;
-            NewTariff3=h.MyTariff;
-            NewTariff3.Parameters=h.MyTariff.Parameters.NUOS;
-            NewTariff4=h.MyTariff;
-            NewTariff4.Parameters=h.MyTariff.Parameters.DTUOS;
-            
-            [TariffOK1,Msg1]=TariffValidity(NewTariff1);
-            
-            [TariffOK2,Msg2]=TariffValidity(NewTariff2);
-            
-            [TariffOK3,Msg3]=TariffValidity(NewTariff3);
-            
-            [TariffOK4,Msg4]=TariffValidity(NewTariff4);
-            
-            h.TariffTableOK=TariffOK1*TariffOK2*TariffOK3*TariffOK4;
+        NewTariff1=h.MyTariff;
+        NewTariff1.Parameters=h.MyTariff.Parameters.DUOS;
+        NewTariff2=h.MyTariff;
+        NewTariff2.Parameters=h.MyTariff.Parameters.TUOS;
+        NewTariff3=h.MyTariff;
+        NewTariff3.Parameters=h.MyTariff.Parameters.NUOS;
+        NewTariff4=h.MyTariff;
+        NewTariff4.Parameters=h.MyTariff.Parameters.DTUOS;
+        
+        [TariffOK1,Msg1]=TariffValidity(NewTariff1);
+        
+        [TariffOK2,Msg2]=TariffValidity(NewTariff2);
+        
+        [TariffOK3,Msg3]=TariffValidity(NewTariff3);
+        
+        [TariffOK4,Msg4]=TariffValidity(NewTariff4);
+        
+        h.TariffTableOK=TariffOK1*TariffOK2*TariffOK3*TariffOK4;
         else
-            
-            NewTariff5=h.MyTariff;
-            NewTariff5.Parameters=h.MyTariff.Parameters.Retail;
-            [TariffOK5,Msg1]=TariffValidity(NewTariff5);
-            Msg2='';
-            Msg3='';
-            Msg4='';
-            h.TariffTableOK=TariffOK5;
+           
+        NewTariff5=h.MyTariff;
+        NewTariff5.Parameters=h.MyTariff.Parameters.Retail;
+       [TariffOK5,Msg1]=TariffValidity(NewTariff5);
+       Msg2='';
+       Msg3='';
+       Msg4='';
+       h.TariffTableOK=TariffOK5;
         end
         if h.TariffTableOK==0
             
@@ -5365,7 +5365,7 @@ h.LoadedLoads.Ini=1;
             'Visible','Off',...
             'Units', 'normalized', 'Position',[.77 .85 .1 .085],...
             'HorizontalAlignment','left');
-        
+
         % TUOS
         h.CT.T.DailyC_Text= uicontrol(h.tab_TUOS_P,'Style','Text',...
             'String',['Daily Charge ($/day):'], ...
@@ -5506,7 +5506,7 @@ h.LoadedLoads.Ini=1;
                 h.tab_NUOS_table.ColumnName=h.CTTable.Properties.VariableNames;
                 h.tab_NUOS_table.ColumnEditable=[true true false true true];
                 
-                
+
             case 'Block'
                 h.CT.Type='Block';
                 h.CreateTar_Net_F.RT.Visible='On';
@@ -5677,8 +5677,8 @@ h.LoadedLoads.Ini=1;
                 h.tab_NUOS_table.ColumnName=h.CTTable.Properties.VariableNames;
                 h.tab_NUOS_table.ColumnEditable=[true true false true true true true true  true true true];
                 
-            case 'Demand'
-                
+           case 'Demand'
+               
                 h.CT.Type='Demand Charge';
                 h.CT.D.EnergyC_Text.Visible='On';
                 h.CT.D.EnergyC_Val.Visible='On';
@@ -5734,7 +5734,7 @@ h.LoadedLoads.Ini=1;
             case 'Demand_Block'
                 
             case 'Demand_TOU'
-                
+                 
                 h.CT.Type='Demand Charge and TOU';
                 h.CT.D.EnergyC_Text.Visible='Off';
                 h.CT.D.EnergyC_Val.Visible='Off';
@@ -5772,21 +5772,21 @@ h.LoadedLoads.Ini=1;
                 h.tab_DUOS_table.ColumnEditable=[true true true true true true true true true true true true true true true true true true];
                 h.tab_DUOS_table.ColumnFormat=({[] [] {'$/kW/Month' '$/kWh'} [] [] [] [] [] [] [] [] [] [] [] [] [] [] []});
                 h.tab_DUOS_table.Data=table2cell(h.CTTable);
-                
+
                 % TUOS
                 h.tab_TUOS_table=uitable(h.tab_TUOS_P,'Units', 'normalized','Position',[.02 .05 .96 .77],'CellEditCallback',@ChangedParamCT);
                 h.tab_TUOS_table.ColumnName=h.CTTable.Properties.VariableNames;
                 h.tab_TUOS_table.ColumnEditable=[true true true true true true  true true true true true true true  true true true true];
                 h.tab_TUOS_table.ColumnFormat=({[] [] {'$/kW/Month' '$/kWh'} [] [] [] [] [] [] [] [] [] [] [] [] [] [] []});
                 h.tab_TUOS_table.Data=table2cell(h.CTTable);
-                
+
                 % NUOS
                 h.tab_NUOS_table=uitable(h.tab_NUOS_P,'Units', 'normalized','Position',[.02 .05 .96 .77],'CellEditCallback',@ChangedParamCT);
                 h.tab_NUOS_table.ColumnName=h.CTTable.Properties.VariableNames;
                 h.tab_NUOS_table.ColumnEditable=[true true true true true true true true true true true true true  true true true true];
                 h.tab_NUOS_table.ColumnFormat=({[] [] {'$/kW/Month' '$/kWh'} [] [] [] [] [] [] [] [] [] [] [] [] [] [] []});
                 h.tab_NUOS_table.Data=table2cell(h.CTTable);
-                
+
         end
         
     end
@@ -5901,7 +5901,7 @@ h.LoadedLoads.Ini=1;
         h.tab_Retail = uitab('parent',h.tabg_creTar, 'title', 'Retail');
         h.tab_Retail_P = uipanel('Parent',h.tab_Retail, ...
             'Position',[.0 .0 1 1]);
-        
+       
         uicontrol(h.CreateTar_Ret_F.P, ...
             'Style','pushbutton', 'String','Add',...
             'Units', 'normalized', 'Position',[.79 .72 .1 .07],...
@@ -5948,8 +5948,8 @@ h.LoadedLoads.Ini=1;
             'Visible','Off',...
             'Units', 'normalized', 'Position',[.77 .85 .1 .085],...
             'HorizontalAlignment','left');
-        
-        
+
+               
         % specific parameters for each tariff type
         switch Type
             
@@ -5976,7 +5976,7 @@ h.LoadedLoads.Ini=1;
                 h.tab_Retail_table.ColumnName=h.CTTable.Properties.VariableNames;
                 h.tab_Retail_table.ColumnEditable=[true true false];
                 
-                
+               
             case 'FRSeas'
                 h.CT.Type='Flat Rate Seasonal';
                 
@@ -6002,7 +6002,7 @@ h.LoadedLoads.Ini=1;
                 h.tab_Retail_table.ColumnName=h.CTTable.Properties.VariableNames;
                 h.tab_Retail_table.ColumnEditable=[true true false true true];
                 
-                
+
             case 'Block'
                 h.CT.Type='Block';
                 h.CreateTar_Ret_F.RT.Visible='On';
@@ -6027,7 +6027,7 @@ h.LoadedLoads.Ini=1;
                 h.tab_Retail_table.ColumnName=h.CTTable.Properties.VariableNames;
                 h.tab_Retail_table.ColumnEditable=[true true false true false];
                 
-                
+             
             case 'Block_Quarterly'
                 
                 h.CT.Type='Block Quarterly';
@@ -6049,7 +6049,7 @@ h.LoadedLoads.Ini=1;
                 h.tab_Retail_table.ColumnName=h.CTTable.Properties.VariableNames;
                 h.tab_Retail_table.ColumnEditable=[true true false true false];
                 
-                
+             
             case 'TOU'
                 h.CT.Type='TOU';
                 h.CreateTar_Ret_F.RT.Visible='On';
@@ -6076,7 +6076,7 @@ h.LoadedLoads.Ini=1;
                 h.tab_Retail_table.ColumnName=h.CTTable.Properties.VariableNames;
                 h.tab_Retail_table.ColumnEditable=[true true false true true true true true true];
                 
-                
+            
                 
             case 'TOUSeas'
                 
@@ -6086,7 +6086,7 @@ h.LoadedLoads.Ini=1;
                 h.CreateTar_Ret_F.AT.Visible='On';
                 h.CT.D.EnergyC_Text.Visible='Off';
                 h.CT.D.EnergyC_Val.Visible='Off';
-                
+               
                 
                 
                 Name={'Peak 1'};
@@ -6110,9 +6110,9 @@ h.LoadedLoads.Ini=1;
                 h.tab_Retail_table.ColumnName=h.CTTable.Properties.VariableNames;
                 h.tab_Retail_table.ColumnEditable=[true true false true true true true true true true true];
                 
-                
-            case 'Demand'
-                
+              
+           case 'Demand'
+               
                 h.CT.Type='Demand Charge';
                 h.CT.D.EnergyC_Text.Visible='On';
                 h.CT.D.EnergyC_Val.Visible='On';
@@ -6153,11 +6153,11 @@ h.LoadedLoads.Ini=1;
             case 'Demand_Block'
                 
             case 'Demand_TOU'
-                
+                 
                 h.CT.Type='Demand Charge and TOU';
                 h.CT.D.EnergyC_Text.Visible='Off';
                 h.CT.D.EnergyC_Val.Visible='Off';
-                
+               
                 h.CreateTar_Ret_F.RT.Visible='On';
                 h.CreateTar_Ret_F.AT.Visible='On';
                 
@@ -6188,8 +6188,8 @@ h.LoadedLoads.Ini=1;
                 h.tab_Retail_table.ColumnEditable=[true true true true true true true true true true true true true true true true true true];
                 h.tab_Retail_table.ColumnFormat=({[] [] {'$/kW/Month' '$/kWh'} [] [] [] [] [] [] [] [] [] [] [] [] [] [] []});
                 h.tab_Retail_table.Data=table2cell(h.CTTable);
-                
-                
+
+              
         end
         
     end
@@ -6212,24 +6212,24 @@ h.LoadedLoads.Ini=1;
 
     function AddRowToTariff(src,evnt)
         try
-            h.tab_DUOS_table.Data=[h.tab_DUOS_table.Data;h.tab_DUOS_table.Data(end,:)];
-            h.tab_TUOS_table.Data=[h.tab_TUOS_table.Data;h.tab_TUOS_table.Data(end,:)];
-            h.tab_NUOS_table.Data=[h.tab_NUOS_table.Data;h.tab_NUOS_table.Data(end,:)];
+        h.tab_DUOS_table.Data=[h.tab_DUOS_table.Data;h.tab_DUOS_table.Data(end,:)];
+        h.tab_TUOS_table.Data=[h.tab_TUOS_table.Data;h.tab_TUOS_table.Data(end,:)];
+        h.tab_NUOS_table.Data=[h.tab_NUOS_table.Data;h.tab_NUOS_table.Data(end,:)];
         end
         try
-            h.tab_Retail_table.Data=[h.tab_Retail_table.Data;h.tab_Retail_table.Data(end,:)];
-            
+        h.tab_Retail_table.Data=[h.tab_Retail_table.Data;h.tab_Retail_table.Data(end,:)];
+   
         end
     end
 
     function DelRowFromTariff(src,evnt)
         try
-            h.tab_DUOS_table.Data(end,:)=[];
-            h.tab_TUOS_table.Data(end,:)=[];
-            h.tab_NUOS_table.Data(end,:)=[];
+        h.tab_DUOS_table.Data(end,:)=[];
+        h.tab_TUOS_table.Data(end,:)=[];
+        h.tab_NUOS_table.Data(end,:)=[];
         end
         try
-            h.tab_Retail_table.Data(end,:)=[];
+        h.tab_Retail_table.Data(end,:)=[]; 
         end
     end
 % if any of the tables parameters was changed the other two tables (components) should also change (except for the rate):
@@ -6255,85 +6255,79 @@ h.LoadedLoads.Ini=1;
     function SetnewTariff(src,evnt,Sector)
         
         h.TariffNew.Sector=Sector;
-        h.TariffNew.Type=h.CT.Type;
-        
+                h.TariffNew.Type=h.CT.Type;
+
         h.TariffNew.Show=true;
         h.TariffNew.Original=false;
         
+        h.TariffNew.Year=h.CreateTar_Net_F.TYearVal.String;
         
         if strcmp(h.TariffNew.Sector,'Network')
             
             h.TariffNew.Provider=h.CreateTar_Net_F.TProviderVal.String;
-            h.TariffNew.State=h.CreateTar_Net_F.TStateVal.String{h.CreateTar_Net_F.TStateVal.Value};
-            h.TariffNew.Name=h.CreateTar_Net_F.TNameVal.String;
-            h.TariffNew.Info=h.CreateTar_Net_F.TInfoVal.String;
-            h.TariffNew.Year=h.CreateTar_Net_F.TYearVal.String;
-            
-            
-            h.TariffNew.Parameters.DUOS.Daily.Value=str2num(h.CT.D.DailyC_Val.String);
-            h.TariffNew.Parameters.TUOS.Daily.Value=str2num(h.CT.T.DailyC_Val.String);
-            h.TariffNew.Parameters.NUOS.Daily.Value=str2num(h.CT.N.DailyC_Val.String);
-            h.TariffNew.Parameters.DTUOS.Daily.Value=str2num(h.CT.D.DailyC_Val.String)+str2num(h.CT.T.DailyC_Val.String);
-            
-            if strcmpi(h.TariffNew.Type,'Demand Charge')
-                h.TariffNew.Parameters.DUOS.Energy.Value=str2num(h.CT.D.EnergyC_Val.String);
-                h.TariffNew.Parameters.TUOS.Energy.Value=str2num(h.CT.T.EnergyC_Val.String);
-                h.TariffNew.Parameters.NUOS.Energy.Value=str2num(h.CT.N.EnergyC_Val.String);
-                h.TariffNew.Parameters.DTUOS.Energy.Value=str2num(h.CT.D.EnergyC_Val.String)+str2num(h.CT.T.EnergyC_Val.String);
-            end
-            h.TariffNew.Parameters.DUOS.Other=cell2table(h.tab_DUOS_table.Data);
-            h.TariffNew.Parameters.DUOS.Other.Properties.VariableNames=h.tab_DUOS_table.ColumnName;
-            
-            h.TariffNew.Parameters.TUOS.Other=cell2table(h.tab_TUOS_table.Data);
-            h.TariffNew.Parameters.TUOS.Other.Properties.VariableNames=h.tab_TUOS_table.ColumnName;
-            
-            h.TariffNew.Parameters.NUOS.Other=cell2table(h.tab_NUOS_table.Data);
-            h.TariffNew.Parameters.NUOS.Other.Properties.VariableNames=h.tab_NUOS_table.ColumnName;
-            
-            h.TariffNew.Parameters.DTUOS.Other=h.TariffNew.Parameters.DUOS.Other;
-            try
-                h.TariffNew.Parameters.DTUOS.Other.Rate(:,1)=h.TariffNew.Parameters.DUOS.Other.Rate(:,1)+h.TariffNew.Parameters.TUOS.Other.Rate(:,1);
-            end
-            try
-                h.TariffNew.Parameters.DTUOS.Other.Value(:,1)=h.TariffNew.Parameters.DUOS.Other.Value(:,1)+h.TariffNew.Parameters.TUOS.Other.Value(:,1);
-            end
-            
-            NewTariff1=h.TariffNew;
-            NewTariff1.Parameters=h.TariffNew.Parameters.DUOS;
-            NewTariff2=h.TariffNew;
-            NewTariff2.Parameters=h.TariffNew.Parameters.TUOS;
-            NewTariff3=h.TariffNew;
-            NewTariff3.Parameters=h.TariffNew.Parameters.NUOS;
-            
-            [TariffOK1,Msg1]=TariffValidity(NewTariff1);
-            
-            [TariffOK2,Msg2]=TariffValidity(NewTariff2);
-            
-            [TariffOK3,Msg3]=TariffValidity(NewTariff3);
-            
+        h.TariffNew.State=h.CreateTar_Net_F.TStateVal.String{h.CreateTar_Net_F.TStateVal.Value};
+        h.TariffNew.Name=h.CreateTar_Net_F.TNameVal.String;
+        h.TariffNew.Info=h.CreateTar_Net_F.TInfoVal.String;
+        
+        h.TariffNew.Parameters.DUOS.Daily.Value=str2num(h.CT.D.DailyC_Val.String);
+        h.TariffNew.Parameters.TUOS.Daily.Value=str2num(h.CT.T.DailyC_Val.String);
+        h.TariffNew.Parameters.NUOS.Daily.Value=str2num(h.CT.N.DailyC_Val.String);
+        h.TariffNew.Parameters.DTUOS.Daily.Value=str2num(h.CT.D.DailyC_Val.String)+str2num(h.CT.T.DailyC_Val.String);
+        
+        if strcmpi(h.TariffNew.Type,'Demand Charge')
+            h.TariffNew.Parameters.DUOS.Energy.Value=str2num(h.CT.D.EnergyC_Val.String);
+            h.TariffNew.Parameters.TUOS.Energy.Value=str2num(h.CT.T.EnergyC_Val.String);
+            h.TariffNew.Parameters.NUOS.Energy.Value=str2num(h.CT.N.EnergyC_Val.String);
+            h.TariffNew.Parameters.DTUOS.Energy.Value=str2num(h.CT.D.EnergyC_Val.String)+str2num(h.CT.T.EnergyC_Val.String);
+        end
+        h.TariffNew.Parameters.DUOS.Other=cell2table(h.tab_DUOS_table.Data);
+        h.TariffNew.Parameters.DUOS.Other.Properties.VariableNames=h.tab_DUOS_table.ColumnName;
+        
+        h.TariffNew.Parameters.TUOS.Other=cell2table(h.tab_TUOS_table.Data);
+        h.TariffNew.Parameters.TUOS.Other.Properties.VariableNames=h.tab_TUOS_table.ColumnName;
+        
+        h.TariffNew.Parameters.NUOS.Other=cell2table(h.tab_NUOS_table.Data);
+        h.TariffNew.Parameters.NUOS.Other.Properties.VariableNames=h.tab_NUOS_table.ColumnName;
+        
+        h.TariffNew.Parameters.DTUOS.Other=h.TariffNew.Parameters.DUOS.Other;
+        try
+            h.TariffNew.Parameters.DTUOS.Other.Rate(:,1)=h.TariffNew.Parameters.DUOS.Other.Rate(:,1)+h.TariffNew.Parameters.TUOS.Other.Rate(:,1);
+        end
+        try
+            h.TariffNew.Parameters.DTUOS.Other.Value(:,1)=h.TariffNew.Parameters.DUOS.Other.Value(:,1)+h.TariffNew.Parameters.TUOS.Other.Value(:,1);
+        end
+        
+        NewTariff1=h.TariffNew;
+        NewTariff1.Parameters=h.TariffNew.Parameters.DUOS;
+        NewTariff2=h.TariffNew;
+        NewTariff2.Parameters=h.TariffNew.Parameters.TUOS;
+        NewTariff3=h.TariffNew;
+        NewTariff3.Parameters=h.TariffNew.Parameters.NUOS;
+        
+        [TariffOK1,Msg1]=TariffValidity(NewTariff1);
+        
+        [TariffOK2,Msg2]=TariffValidity(NewTariff2);
+        
+        [TariffOK3,Msg3]=TariffValidity(NewTariff3);
+        
         else
-            h.TariffNew.Provider=h.CreateTar_Ret_F.TProviderVal.String;
-            h.TariffNew.State=h.CreateTar_Ret_F.TStateVal.String{h.CreateTar_Ret_F.TStateVal.Value};
-            h.TariffNew.Name=h.CreateTar_Ret_F.TNameVal.String;
-            h.TariffNew.Info=h.CreateTar_Ret_F.TInfoVal.String;
-            h.TariffNew.Year=h.CreateTar_Ret_F.TYearVal.String;
-            
-            h.TariffNew.Parameters.Retail.Daily.Value=str2num(h.CT.D.DailyC_Val.String);
-            
-            if strcmpi(h.TariffNew.Type,'Demand Charge')
-                h.TariffNew.Parameters.Retail.Energy.Value=str2num(h.CT.D.EnergyC_Val.String);
-            end
-            h.TariffNew.Parameters.Retail.Other=cell2table(h.tab_Retail_table.Data);
-            h.TariffNew.Parameters.Retail.Other.Properties.VariableNames=h.tab_Retail_table.ColumnName;
-            
-            NewTariff1=h.TariffNew;
-            NewTariff1.Parameters=h.TariffNew.Parameters.Retail;
-            
-            [TariffOK1,Msg1]=TariffValidity(NewTariff1);
-            TariffOK2=TariffOK1;
-            TariffOK3=TariffOK1;
-            Msg2='';
-            Msg3='';
+          
+        h.TariffNew.Parameters.Retail.Daily.Value=str2num(h.CT.D.DailyC_Val.String);
+        
+        if strcmpi(h.TariffNew.Type,'Demand Charge')
+            h.TariffNew.Parameters.Retail.Energy.Value=str2num(h.CT.D.EnergyC_Val.String);
+             end
+        h.TariffNew.Parameters.Retail.Other=cell2table(h.tab_Retail_table.Data);
+        h.TariffNew.Parameters.Retail.Other.Properties.VariableNames=h.tab_Retail_table.ColumnName;
+        
+        NewTariff1=h.TariffNew;
+        NewTariff1.Parameters=h.TariffNew.Parameters.Retail;
+        
+        [TariffOK1,Msg1]=TariffValidity(NewTariff1);
+        TariffOK2=TariffOK1;
+        TariffOK2=TariffOK1;
+        Msg2='';
+        Msg3='';
         end
         if TariffOK1*TariffOK2*TariffOK3==1
             
@@ -6341,7 +6335,7 @@ h.LoadedLoads.Ini=1;
                 DelMsg;msgbox('There is already a tariff in this name! Please choose a different name and try again!')
             else
                 % saving
-                %                 h.TariffList.AllTariffs
+%                 h.TariffList.AllTariffs
                 h.TariffList.AllTariffs(1,size(h.TariffList.AllTariffs,2)+1)=h.TariffNew;
                 
                 [tmd,ind]=sort({h.TariffList.AllTariffs.Name});
@@ -6356,7 +6350,7 @@ h.LoadedLoads.Ini=1;
                         
                     catch
                         tempTariff.AllTariffs(1,1)=h.TariffNew;
-                    end
+                     end
                     
                     [tmd,ind]=sort({tempTariff.AllTariffs.Name});
                     tempTariff.AllTariffs=tempTariff.AllTariffs(ind);
@@ -6369,7 +6363,7 @@ h.LoadedLoads.Ini=1;
                     catch
                         tempTariff.AllTariffs(1,1)=h.TariffNew;
                     end
-                    
+
                     [tmd,ind]=sort({tempTariff.AllTariffs.Name});
                     tempTariff.AllTariffs=tempTariff.AllTariffs(ind);
                     AllTariffs=tempTariff.AllTariffs;
@@ -6390,7 +6384,7 @@ h.LoadedLoads.Ini=1;
     end
 
     function ChecktheTariffTable(src,evnt)
-        
+
         [TariffOK,Msg]=TariffValidity(h.MyTariff);
         h.TariffTableOK=TariffOK;
         if TariffOK==0
@@ -6407,7 +6401,7 @@ h.LoadedLoads.Ini=1;
             'Create now','Open sample file','Cancel','Cancel');
         
         % Handle response
-        
+       
         switch choice
             case 'Create now'
                 
@@ -6516,7 +6510,7 @@ h.LoadedLoads.Ini=1;
                     end
                     
                 end
-                
+              
                 
             case 'Open sample file'
                 
