@@ -2,14 +2,13 @@ function [ Bill,Status ] = BillCalc( Tariff,LoadData,Type)
 
 % This function is for caluclating Annual bill based on any tariff
 
-% updated on 24 November 2017
+% updated May 2019
 % n.haghdadi@unsw.edu.au
 
 % Inputs:
 
 % - TariffDetail: has the name of tariff as well as parameters needed for
 % calculation
-
 
 % - LoadData: is a table with one TimeStamp column and one Load column which
 % can have multiple columns of different homes all in **kWh**
@@ -327,23 +326,19 @@ switch Tariff.Type
                 TimeIndexCheck=zeros(size(LoadData.TimeStamp,1),1);
                 clear Res
                 for TT=1:size(TGs,1)
-                    
                     NewPar=Tariff.Parameters.Other(Tariff.Parameters.Other.TimeGroup==TGs(TT,1),:);
                     DayAverage=NewPar.DayAverage(1,1); % Only one day average per timegroup can be aceepted
                     NetworkPeak=NewPar.NetworkPeak(1,1);
                     for T=1:size(NewPar,1)
-                        
                         if NewPar.Weekday(T,1)==1
                             if NewPar.StartMonth(T,1)>NewPar.EndMonth(T,1)
                                 TimeIndex((LoadData.TimeStamp.Month>=NewPar.StartMonth(T,1)|LoadData.TimeStamp.Month<=NewPar.EndMonth(T,1))&DayNumber>1&DayNumber<7&(60*LoadData.TimeStamp.Hour+LoadData.TimeStamp.Minute)>=(60*NewPar.StartHour(T,1)+NewPar.StartMin(T,1))&(60*LoadData.TimeStamp.Hour+LoadData.TimeStamp.Minute)<(60*NewPar.EndHour(T,1)+NewPar.EndMin(T,1)),1)=TT;
                                 TimeIndexCheck((LoadData.TimeStamp.Month>=NewPar.StartMonth(T,1)|LoadData.TimeStamp.Month<=NewPar.EndMonth(T,1))&DayNumber>1&DayNumber<7&(60*LoadData.TimeStamp.Hour+LoadData.TimeStamp.Minute)>=(60*NewPar.StartHour(T,1)+NewPar.StartMin(T,1))&(60*LoadData.TimeStamp.Hour+LoadData.TimeStamp.Minute)<(60*NewPar.EndHour(T,1)+NewPar.EndMin(T,1)),1)=...
                                     TimeIndexCheck((LoadData.TimeStamp.Month>=NewPar.StartMonth(T,1)|LoadData.TimeStamp.Month<=NewPar.EndMonth(T,1))&DayNumber>1&DayNumber<7&(60*LoadData.TimeStamp.Hour+LoadData.TimeStamp.Minute)>=(60*NewPar.StartHour(T,1)+NewPar.StartMin(T,1))&(60*LoadData.TimeStamp.Hour+LoadData.TimeStamp.Minute)<(60*NewPar.EndHour(T,1)+NewPar.EndMin(T,1)),1)+1;
-                                
                             else
                                 TimeIndex((LoadData.TimeStamp.Month>=NewPar.StartMonth(T,1)&LoadData.TimeStamp.Month<=NewPar.EndMonth(T,1))&DayNumber>1&DayNumber<7&(60*LoadData.TimeStamp.Hour+LoadData.TimeStamp.Minute)>=(60*NewPar.StartHour(T,1)+NewPar.StartMin(T,1))&(60*LoadData.TimeStamp.Hour+LoadData.TimeStamp.Minute)<(60*NewPar.EndHour(T,1)+NewPar.EndMin(T,1)),1)=TT;
                                 TimeIndexCheck((LoadData.TimeStamp.Month>=NewPar.StartMonth(T,1)&LoadData.TimeStamp.Month<=NewPar.EndMonth(T,1))&DayNumber>1&DayNumber<7&(60*LoadData.TimeStamp.Hour+LoadData.TimeStamp.Minute)>=(60*NewPar.StartHour(T,1)+NewPar.StartMin(T,1))&(60*LoadData.TimeStamp.Hour+LoadData.TimeStamp.Minute)<(60*NewPar.EndHour(T,1)+NewPar.EndMin(T,1)),1)=...
                                     TimeIndexCheck((LoadData.TimeStamp.Month>=NewPar.StartMonth(T,1)&LoadData.TimeStamp.Month<=NewPar.EndMonth(T,1))&DayNumber>1&DayNumber<7&(60*LoadData.TimeStamp.Hour+LoadData.TimeStamp.Minute)>=(60*NewPar.StartHour(T,1)+NewPar.StartMin(T,1))&(60*LoadData.TimeStamp.Hour+LoadData.TimeStamp.Minute)<(60*NewPar.EndHour(T,1)+NewPar.EndMin(T,1)),1)+1;
-                                
                             end
                         end
                         
